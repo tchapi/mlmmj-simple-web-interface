@@ -1,5 +1,15 @@
 var express = require('express')
+var bodyParser = require('body-parser')
 var app = express()
+
+// Static content
+app.use(express.static(__dirname + '/public'));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // Consolidate, to make beautiful templates in nunjucks
 var cons = require('consolidate')
@@ -13,6 +23,22 @@ app.set('views', __dirname + '/views')
 
 // Add mlmmj service wrapper module
 var Mlmmj = require('./services/MlmmjWrapper')
+
+app.param('name', function(req, res, next, name) {
+
+    var group = null
+
+    try {
+      req.group = new Mlmmj(name)
+      req.name = name
+    } catch (err) {
+      res.status(404).send(err.name + " : " + err.message)
+      return
+    }
+
+    next()
+})
+
 
 app.get('/', function (req, res) {
 
@@ -30,22 +56,54 @@ app.get('/', function (req, res) {
 
 })
 
-app.get('/group/:name', function(req, res){
-    
-    var groupname = req.params.name
-    var group = null
-
-    try {
-      group = new Mlmmj(groupname)
-    } catch (err) {
-      res.status(404).send(err.name + " : " + err.message)
-      return
-    }
-
+app.get('/group/:name', function(req, res){ 
     res.render('group', {
-      title: 'Group ' + groupname,
-      flags: group.getFlags()
+      name: req.name
     })
+})
+
+app.get('/group/:name/control', function(req, res){
+    res.render('control', {
+      name: req.name,
+      flags: req.group.getFlags(),
+      texts: req.group.getTexts(),
+      values: req.group.getValues(),
+      lists: req.group.getLists()
+    })
+})
+
+app.get('/group/:name/subscribers', function(req, res){
+    res.render('subscribers', {
+      name: req.name,
+      subscribers: req.group.getSubscribers()
+    })
+})
+
+app.post('/group/:name/save/:key', function(req, res){
+    
+    var key = req.params.key
+
+    if (key == 'flags') {
+      for (key in req.body) {
+        req.group.setFlag(key, req.body[key])
+      }
+    } else if (key == 'texts') {
+      for (key in req.body) {
+        req.group.setText(key, req.body[key])
+      }
+    } else if (key == 'lists') {
+      for (key in req.body) {
+        req.group.setList(key, req.body[key].split("\n"))
+      }
+    } else if (key == 'values') {
+      for (key in req.body) {
+        req.group.setValue(key, req.body[key])
+      }
+    }
+    
+    // Save to disk
+    req.group.saveAll()
+    res.status(200).send("1")
 
 })
 

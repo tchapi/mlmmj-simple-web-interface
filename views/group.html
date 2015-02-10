@@ -1,33 +1,18 @@
 <!DOCTYPE html>
 <head>
-  <title>{{ title }}</title>
+  <title>{{ name }}</title>
     <meta charset="utf-8">
 </head>
 <body>
 <a href="/">back to groups list</a>
-<h3>Control flags</h3>
+
+<h1>Group {{ name }} — management</h1>
+
 <ul>
-{% for flag in flags %}
-
-  <li>{{ flag }}</li>
-
-{% endfor %}
+  <li><a href="/group/{{ name }}/control">Manage group parameters</a></li>
+  <li><a href="/group/{{ name }}/subscribers">Manage group subscribers</a></li>
+  <li><a href="/group/{{ name }}/archive">Browse group archive</a></li>
 </ul>
-<h3>Editables</h3>
-<ul>
-{% for flag in flags %}
 
-  <li>{{ flag }}</li>
-
-{% endfor %}
-</ul>
-<h3>Archive</h3>
-<ul>
-  <li>Message 1</li>
-  <li>Message 2</li>
-  <li>Message 3</li>
-  <li>Message 4</li>
-  <li>Message 5</li>
-</ul>
 </body>
 </html>

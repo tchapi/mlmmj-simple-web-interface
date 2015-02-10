@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+  <title>{{ name }}</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<a href="/">back to groups list</a>
+
+<h1>Group {{ name }} — management</h1>
+
+<h3>Control flags</h3>
+<ul class="flags">
+{% for key, flag in flags %}
+
+  <li><input type="checkbox" id="{{ key }}" {% if flag == true %}checked="checked"{% endif %}> <label for="{{ key }}">{{ key }}</label></li>
+
+{% endfor %}
+</ul>
+<a class="save" href="/group/{{ name }}/save" data-key="flags">Save</a>
+
+<h3>Texts</h3>
+<ul class="texts">
+{% for key, text in texts %}
+
+  <li><label for="{{ key }}">{{ key }}</label><textarea id="{{ key }}">{{ text }}</textarea></li>
+
+{% endfor %}
+</ul>
+<a class="save" href="/group/{{ name }}/save" data-key="texts">Save</a>
+
+<h3>Values</h3>
+<ul class="values">
+{% for key, value in values %}
+
+  <li><label for="{{ key }}">{{ key }}</label><input id="{{ key }}" type="text" value="{{ value }}"></li>
+
+{% endfor %}
+</ul>
+<a class="save" href="/group/{{ name }}/save" data-key="values">Save</a>
+
+<h3>Lists</h3>
+<ul class="lists">
+{% for key, list in lists %}
+
+  <li><label for="{{ key }}">{{ key }}</label><textarea id="{{ key }}">{{ list }}</textarea></li>
+
+{% endfor %}
+</ul>
+<a class="save" href="/group/{{ name }}/save" data-key="lists">Save</a>
+
+<script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+</body>
+</html>
