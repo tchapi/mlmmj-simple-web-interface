@@ -101,7 +101,7 @@ MlmmjWrapper.listGroups = function() {
   try {
     return fs.readdirSync(global_path)
   } catch (err) {
-    throw new Error("Error opening base folder " + global_path)
+    throw new Error("Error opening base folder " + global_path + ". Are you sure mlmmj is installed ?")
   }
 
 }
@@ -120,12 +120,13 @@ p.saveAll = function() {
   this.saveTexts()
   this.saveLists()
   this.saveValues()
+  this.saveSubscribers()
 }
 
 
 /* FLAGS (boolean) */
 p.retrieveFlags = function() {
-  for (flag in available_flags) {
+  for (var flag in available_flags) {
     try {
       fs.openSync(this.path + "/" + control_folder + "/" + flag, 'r')
     } catch (err) {
@@ -173,7 +174,7 @@ p.getFlags = function() {
 }
 
 p.saveFlags = function() {
-  for (flag in available_flags) {
+  for (var flag in available_flags) {
     if (this.getFlag(flag) == true) {
       fd = fs.openSync(this.path + "/" + control_folder + "/" + flag, 'w')
       fs.closeSync(fd)
@@ -187,7 +188,7 @@ p.saveFlags = function() {
 
 /* TEXTS */
 p.retrieveTexts = function() {
-  for (name in available_texts) {
+  for (var name in available_texts) {
     try {
       text = fs.readFileSync(this.path + "/" + control_folder + "/" + name, { "encoding": 'utf8'})
     } catch (err) {
@@ -228,7 +229,7 @@ p.getTexts = function() {
 
 p.saveTexts = function() {
   var text = null
-  for (name in available_texts) {
+  for (var name in available_texts) {
     text = this.getText(name)
     fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
     fs.writeSync(fd, text)
@@ -239,7 +240,7 @@ p.saveTexts = function() {
 
 /* VALUES */
 p.retrieveValues = function() {
-  for (name in available_values) {
+  for (var name in available_values) {
     try {
       value = fs.readFileSync(this.path + "/" + control_folder + "/" + name, { "encoding": 'utf8'})
     } catch (err) {
@@ -280,7 +281,7 @@ p.getValues = function() {
 
 p.saveValues = function() {
   var val = null
-  for (name in available_values) {
+  for (var name in available_values) {
     val = this.getValue(name)
     fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
     fs.writeSync(fd, val)
@@ -290,7 +291,7 @@ p.saveValues = function() {
 
 /* LISTS */
 p.retrieveLists = function() {
-  for (name in available_lists) {
+  for (var name in available_lists) {
     try {
       l = fs.readFileSync(this.path + "/" + control_folder + "/" + name, { "encoding": 'utf8'})
     } catch (err) {
@@ -331,7 +332,7 @@ p.getLists = function() {
 
 p.saveLists = function() {
   var l = null
-  for (name in available_lists) {
+  for (var name in available_lists) {
     l = this.getList(name)
     fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
     fs.writeSync(fd,l.join('\n'))
