@@ -39,8 +39,15 @@ app.param('name', function(req, res, next, name) {
     next()
 })
 
-
 app.get('/', function (req, res) {
+
+  res.render('index', {
+    title: 'Home'
+  })
+
+})
+
+app.get('/list', function (req, res) {
 
   try {
     groups = Mlmmj.listGroups()
@@ -49,8 +56,8 @@ app.get('/', function (req, res) {
     return
   }
 
-  res.render('index', {
-    title: 'Home',
+  res.render('list', {
+    title: 'List',
     groups: groups
   })
 
