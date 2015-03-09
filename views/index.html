@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<head>
-  <title>{{ title }}</title>
-    <meta charset="utf-8">
-</head>
-<body>
-<ul>
-{% for group in groups %}
+{% extends "views/base.html" %}
 
-  <li><a href="/group/{{ group }}">{{ group }}</a></li>
+{% block breadcrumb %}
+  <li class="active">Home</li>
+{% endblock %}    
 
-{% endfor %}
-</ul>
-</body>
-</html>
+{% block content %}
+  Welcome
+{% endblock %}

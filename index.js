@@ -65,12 +65,14 @@ app.get('/list', function (req, res) {
 
 app.get('/group/:name', function(req, res){ 
     res.render('group', {
+      title: 'Group ' + req.name,
       name: req.name
     })
 })
 
 app.get('/group/:name/control', function(req, res){
     res.render('control', {
+      title: 'Group ' + req.name,
       name: req.name,
       flags: req.group.getFlags(),
       texts: req.group.getTexts(),
@@ -81,6 +83,7 @@ app.get('/group/:name/control', function(req, res){
 
 app.get('/group/:name/subscribers', function(req, res){
     res.render('subscribers', {
+      title: 'Group ' + req.name,
       name: req.name,
       subscribers: req.group.getSubscribers()
     })

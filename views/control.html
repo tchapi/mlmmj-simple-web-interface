@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<head>
-  <title>{{ name }}</title>
-    <meta charset="utf-8">
-</head>
-<body>
-<a href="/">back to groups list</a>
+{% extends "views/base.html" %}
 
-<h1>Group {{ name }} — management</h1>
+{% block breadcrumb %}
+<li><a href="/">Home</a></li>
+<li><a href="/list">All groups</a></li>
+<li><a href="/group/{{name}}">{{ name }}</a></li>
+<li class="active">Control</li>
+{% endblock %}
+
+{% block content %}
+<h1>Group {{ name }} — Control</h1>
 
 <h3>Control flags</h3>
 <ul class="flags">
@@ -47,9 +49,9 @@
 {% endfor %}
 </ul>
 <a class="save" href="/group/{{ name }}/save" data-key="lists">Save</a>
+{% endblock %}
 
-<script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
+{% block js %}
+{{ super() }}
 <script type="text/javascript" src="/js/main.js"></script>
-
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "views/base.html" %}
+{% block breadcrumb %}
+  <li><a href="/">Home</a></li>
+  <li class="active">All groups</li>
+{% endblock %}
+    
+
+{% block content %}
+  <ul>
+  {% for group in groups %}
+
+    <li><a href="/group/{{ group }}">{{ group }}</a></li>
+
+  {% endfor %}
+  </ul>
+{% endblock %}
