@@ -51,4 +51,37 @@ $(document).ready(function(){
     return false
   })
 
+  $('.remove').on('click', function() {
+    item = $(this).attr('data-key')
+    data = { 'element' : $(this).attr('data-element') }
+
+    $.post(this.href + '/' + item, data, (function( data ) {
+      if (data == 1) {
+        console.log("removed")
+        $(this).parent().remove()
+      } else {
+        console.log("error")
+      }
+    }).bind(this))
+
+    return false
+  })
+
+  $('.add').on('click', function() {
+    item = $(this).attr('data-key')
+    value = $("input[data-key=" + item + "]").val()
+    data = { 'element' : value }
+
+    $.post(this.href + '/' + item, data, (function( data ) {
+      if (data == 1) {
+        console.log("added")
+        $('<li>' + value + '</li>').insertBefore($(this).parent())
+      } else {
+        console.log("error")
+      }
+    }).bind(this))
+
+    return false
+  })
+
 })

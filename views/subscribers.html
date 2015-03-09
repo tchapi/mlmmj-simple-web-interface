@@ -1,0 +1,26 @@
+{% extends "views/base.html" %}
+
+{% block breadcrumb %}
+<li><a href="/">Home</a></li>
+<li><a href="/list">All groups</a></li>
+<li><a href="/group/{{name}}">{{ name }}</a></li>
+<li class="active">Subscribers</li>
+{% endblock %}
+
+{% block content %}
+<h1>Group {{ name }} — subscribers</h1>
+
+<ul class="subscribers">
+{% for subscriber in subscribers %}
+
+  <li>{{ subscriber }} <a class="remove" href="/group/{{ name }}/remove" data-key="subscribers" data-element="{{ subscriber }}">Remove</a> </li>
+
+{% endfor %}
+  <li><input type="text" data-key="subscribers"><a class="add" data-key="subscribers" href="/group/{{ name }}/add">Add</a></li>
+</ul>
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script type="text/javascript" src="/js/main.js"></script>
+{% endblock %}

@@ -113,6 +113,7 @@ p.retrieveAll = function() {
   this.retrieveTexts()
   this.retrieveLists()
   this.retrieveValues()
+  this.retrieveSubscribers()
 }
 
 p.saveAll = function() {
@@ -336,6 +337,55 @@ p.saveLists = function() {
     l = this.getList(name)
     fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
     fs.writeSync(fd,l.join('\n'))
+    fs.closeSync(fd)
+  }
+}
+
+/* Subscribers */
+p.retrieveSubscribers = function() {
+  
+  this.subscribers = []
+
+  var path = this.path + "/" + subscribers_master_folder
+  files = fs.readdirSync(path)
+
+  for (var key in files) {
+    subs = fs.readFileSync(path + "/" + files[key], { "encoding": 'utf8'}).split('\n')
+    for (var item in subs) {
+      if (subs[item] != "") {
+        this.subscribers.push(subs[item])
+      }
+    }
+  }
+}
+
+p.removeSubscriber = function(element){
+
+  var index = this.subscribers.indexOf(element)
+  this.subscribers.splice(index, 1)
+
+}
+
+p.addSubscriber = function(element){
+
+  this.subscribers.push(element)
+
+}
+
+p.getSubscribers = function() {
+  return this.subscribers
+}
+
+p.saveSubscribers = function() {
+
+  /* empty directory */
+  var path = this.path + "/" + subscribers_master_folder
+  files = fs.readdirSync(path)
+  for (var key in files) { fs.unlinkSync(path + "/" + files[key]) }
+
+  for (var key in this.subscribers) {
+    fd = fs.openSync(path + "/" + this.subscribers[key].charAt(0), 'a')
+    fs.writeSync(fd, this.subscribers[key] + '\n')
     fs.closeSync(fd)
   }
 }

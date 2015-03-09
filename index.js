@@ -109,12 +109,42 @@ app.post('/group/:name/save/:key', function(req, res){
       for (key in req.body) {
         req.group.setValue(key, req.body[key])
       }
+    } else if (key == 'subscribers') {
+      for (key in req.body) {
+        req.group.setSubscribers(key, req.body[key])
+      }
     }
     
     // Save to disk
     req.group.saveAll()
     res.status(200).send("1")
 
+})
+
+app.post('/group/:name/remove/:key', function(req, res){
+    
+    var key = req.params.key
+
+    if (key == 'subscribers') {
+      req.group.removeSubscriber(req.body.element)
+    }
+
+    // Save to disk
+    req.group.saveAll()
+    res.status(200).send("1")
+})
+
+app.post('/group/:name/add/:key', function(req, res){
+    
+    var key = req.params.key
+
+    if (key == 'subscribers') {
+      req.group.addSubscriber(req.body.element)
+    }
+
+    // Save to disk
+    req.group.saveAll()
+    res.status(200).send("1")
 })
 
 // Start application
