@@ -343,7 +343,6 @@ p.saveLists = function() {
 
 /* Subscribers */
 p.retrieveSubscribers = function() {
-  
   this.subscribers = []
 
   var path = this.path + "/" + subscribers_master_folder
@@ -360,14 +359,11 @@ p.retrieveSubscribers = function() {
 }
 
 p.removeSubscriber = function(element){
-
   var index = this.subscribers.indexOf(element)
   this.subscribers.splice(index, 1)
-
 }
 
 p.addSubscriber = function(element){
-
   this.subscribers.push(element)
 
 }
@@ -377,12 +373,11 @@ p.getSubscribers = function() {
 }
 
 p.saveSubscribers = function() {
-
-  /* empty directory */
+  /* Empty directory first*/
   var path = this.path + "/" + subscribers_master_folder
   files = fs.readdirSync(path)
   for (var key in files) { fs.unlinkSync(path + "/" + files[key]) }
-
+  /* Then recreates on file per first email character */
   for (var key in this.subscribers) {
     fd = fs.openSync(path + "/" + this.subscribers[key].charAt(0), 'a')
     fs.writeSync(fd, this.subscribers[key] + '\n')

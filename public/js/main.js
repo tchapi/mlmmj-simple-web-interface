@@ -3,6 +3,10 @@ $(document).ready(function(){
   // Function array
   var get = function() {}
 
+  /*
+    These functions retrieve the values, lists, flags, texts from the control page
+    and return the corresponding variable.
+  */
   get.prototype.flags = function(){
     var flags = {}
     $("ul.flags li > input").each(function(index){
@@ -35,7 +39,11 @@ $(document).ready(function(){
     return lists
   }
 
-
+  /*
+    This function is called when users click on "Save" in the Control page.
+    The clicked link contains a data-key attribute that we use to retrieve the values 
+    in the page. We then send them out to the server.
+  */
   $('.save').on('click', function() {
     item = $(this).attr('data-key')
     data = (new get())[item]()
@@ -51,6 +59,12 @@ $(document).ready(function(){
     return false
   })
 
+  /*
+    This function is called when users remove an element from a group of elements of the group.
+    This applies to subscribers, for instance.
+    The clicked link contains a data-key and data-element attribute; The data-key 
+    indicates the type of element we are removing, and the data-element is the element we are removing.
+  */
   $('.remove').on('click', function() {
     item = $(this).attr('data-key')
     data = { 'element' : $(this).attr('data-element') }
@@ -67,6 +81,12 @@ $(document).ready(function(){
     return false
   })
 
+  /*
+    This function is called when users add an element from a group of elements of the group.
+    This applies to subscribers, for instance.
+    The clicked link contains a data-key and data-element attribute; The data-key 
+    indicates the type of element we are adding, and the data-element is the element we want to add.
+  */
   $('.add').on('click', function() {
     item = $(this).attr('data-key')
     value = $("input[data-key=" + item + "]").val()
