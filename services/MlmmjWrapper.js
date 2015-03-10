@@ -1,11 +1,15 @@
 var fs = require('fs')
 
-var global_path = "/tmp/mlmmj"
+/*
 
+  Mlmmj standard folders
+
+*/
 var control_folder = "control"
 var archive_folder = "archive"
 var subscribers_master_folder = "subscribers.d" // One file per letter
 var templates_folder = "text"
+
 /*
 
   These are the boolean flags you can set per mailing list, as per http://mlmmj.org/docs/tunables/
@@ -71,9 +75,9 @@ var available_values = {
   "staticbounceaddr" : "If this is set to something@example.org, the bounce address (Return-Path:) will be fixed to something+listname-bounces-and-so-on@example.org in case you need to disable automatic bounce handling."
 }
 
-MlmmjWrapper = function(path) {
+MlmmjWrapper = function(path, name) {
 
-  this.path = global_path + "/" + path
+  this.path = path + "/" + name
 
   // Empty control dict to hold flag values
   this.flags = {}
@@ -85,7 +89,7 @@ MlmmjWrapper = function(path) {
   try {
     fs.openSync(this.path, 'r')
   } catch (err) {
-    throw new Error("Group " + path + " doesn't exist")
+    throw new Error("Group " + name + " doesn't exist")
   }
   
   // Check flags & stuff
@@ -96,12 +100,12 @@ MlmmjWrapper = function(path) {
 }
 
 // "Static"
-MlmmjWrapper.listGroups = function() {
+MlmmjWrapper.listGroups = function(path) {
 
   try {
-    return fs.readdirSync(global_path)
+    return fs.readdirSync(path)
   } catch (err) {
-    throw new Error("Error opening base folder " + global_path + ". Are you sure mlmmj is installed ?")
+    throw new Error("Error opening base folder " + path + ". Are you sure mlmmj is installed ?")
   }
 
 }

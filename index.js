@@ -2,6 +2,11 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
 
+
+// Add config module
+var CONFIG = require('./services/ConfigParser')
+var config = new CONFIG()
+
 // Static content
 app.use(express.static(__dirname + '/public'));
 
@@ -29,7 +34,7 @@ app.param('name', function(req, res, next, name) {
     var group = null
 
     try {
-      req.group = new Mlmmj(name)
+      req.group = new Mlmmj(config.get('mlmmj').path, name)
       req.name = name
     } catch (err) {
       res.status(404).send(err.name + " : " + err.message)
@@ -50,7 +55,7 @@ app.get('/', function (req, res) {
 app.get('/list', function (req, res) {
 
   try {
-    groups = Mlmmj.listGroups()
+    groups = Mlmmj.listGroups(config.get('mlmmj').path)
   } catch (err) {
     res.status(500).send(err.name + " : " + err.message)
     return
@@ -148,7 +153,7 @@ app.post('/group/:name/add/:key', function(req, res){
 })
 
 // Start application
-var server = app.listen(4792, function () {
+var server = app.listen(config.get('server').port, function () {
 
   var host = server.address().address
   var port = server.address().port
