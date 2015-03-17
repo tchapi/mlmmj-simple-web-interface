@@ -16,31 +16,106 @@ var templates_folder = "text"
 
 */
 var available_flags = {
-  "closedlist" : "Is the list is open or closed. If it's closed subscription and unsubscription via mail is disabled.",
-  "closedlistsub" : "Closed for subscription. Unsubscription is possible.",
-  "moderated" : "If this file is present, the emailaddresses in the file listdir/control/moderators will act as moderators for the list.",
-  "submod" : "If this file is present, subscription will be moderated by owner(s). If there are emailaddresses in this file, then these will be used instead of owner.",
-  "tocc" : "If this file is present, the list address does not have to be in the To: or Cc: header of the email to the list.",
-  "subonlypost" : " When this file is present, only people who are subscribed to the list, are allowed to post to it. The check is made against the \"From:\" header.",
-  "modnonsubposts" : "When this file is present, all postings from people who are not subscribed to the list will be moderated.",
-  "addtohdr" : "When this file is present, a To: header including the recipients emailaddress will be added to outgoing mail. Recommended usage is to remove existing To: headers with delheaders (see above) first.",
-  "notifysub" : "If this file is present, the owner(s) will get a mail with the address of someone sub/unsubscribing to a mailinglist.",
-  "notifymod" : "If this file is present, the poster (based on the envelope from) will get a mail when their post is being moderated.",
-  "noarchive" : "If this file exists, the mail won't be saved in the archive but simply deleted.",
-  "nosubconfirm" : "If this file exists, no mail confirmation is needed to subscribe to the list. This should in principle never ever be used, but there is times on local lists etc. where this is useful. HANDLE WITH CARE!",
-  "noget" : "If this file exists, then retrieving old posts with +get-N is disabled",
-  "subonlyget" : "If this file exists, then retrieving old posts with +get-N is only possible for subscribers. The above mentioned 'noget' have precedence.",
-  "notoccdenymails" : "These switches turns off whether mlmmj sends out notification about postings being denied due to the listaddress not being in To: or Cc: (see 'tocc'), when it was rejected due to an access rule (see 'access') or whether it's a subscribers only posting list (see 'subonlypost').",
-  "noaccessdenymails" : "These switches turns off whether mlmmj sends out notification about postings being denied due to the listaddress not being in To: or Cc: (see 'tocc'), when it was rejected due to an access rule (see 'access') or whether it's a subscribers only posting list (see 'subonlypost').",
-  "nosubonlydenymails" : "These switches turns off whether mlmmj sends out notification about postings being denied due to the listaddress not being in To: or Cc: (see 'tocc'), when it was rejected due to an access rule (see 'access') or whether it's a subscribers only posting list (see 'subonlypost').",
-  "nosubmodmails" : "This switch turns off whether mlmmj sends out notification about subscription being moderated to the person requesting subscription (see 'submod').",
-  "nodigesttext" : "If this file exists, digest mails won't have a text part with a thread summary.",
-  "nodigestsub" : "If this file exists, subscription to the digest version of the mailinglist will be denied. (Useful if you don't want to allow digests and notify users about it).",
-  "nonomailsub" : "If this file exists, subscription to the nomail version of the mailinglist will be denied. (Useful if you don't want to allow nomail and notify users about it).",
-  "nomaxmailsizedenymails" : "If this is set, no reject notifications caused by violation of maxmailsize will be sent.",
-  "nolistsubsemail" : "If this is set, the LISTNAME+list@ functionality for requesting an email with the subscribers for owner is disabled.",
-  "ifmodsendonlymodmoderate" : "If this file is present, then mlmmj in case of moderation checks the envelope from, to see if the sender is a moderator, and in that case only send the moderation mails to that address. In practice this means that a moderator sending mail to the list won't bother all the other moderators with his mail.",
-  "notmetoo" : "If this file is present, mlmmj attempts to exclude the sender of a post from the distribution list for that post so people don't receive copies of their own posts.",
+  "closedlist" : {
+    name: "Closed list", 
+    description: "Is the list is open or closed. If it's closed subscription and unsubscription via mail is disabled."
+  },
+  "closedlistsub" : {
+    name: "Closed for subscription", 
+    description: "Closed for subscription. Unsubscription is possible."
+  },
+  "moderated" : {
+    name: "Moderated list", 
+    description: "If this file is present, the emailaddresses in the file listdir/control/moderators will act as moderators for the list."
+  },
+  "submod" : {
+    name: "Moderated subscription", 
+    description: "If this file is present, subscription will be moderated by owner(s). If there are emailaddresses in this file, then these will be used instead of owner."
+  },
+  "tocc" : {
+    name: "To/Cc optional", 
+    description: "If this file is present, the list address does not have to be in the To: or Cc: header of the email to the list."
+  },
+  "subonlypost" : {
+    name: "Closed posting", 
+    description: " When this file is present, only people who are subscribed to the list, are allowed to post to it. The check is made against the \"From:\" header."
+  },
+  "modnonsubposts" : {
+    name: "Moderated posts", 
+    description: "When this file is present, all postings from people who are not subscribed to the list will be moderated."
+  },
+  "addtohdr" : {
+    name: "Add To: header", 
+    description: "When this file is present, a To: header including the recipients emailaddress will be added to outgoing mail. Recommended usage is to remove existing To: headers with delheaders (see above) first."
+  },
+  "notifysub" : {
+    name: "Notify of subscription", 
+    description: "If this file is present, the owner(s) will get a mail with the address of someone sub/unsubscribing to a mailinglist."
+  },
+  "notifymod" : {
+    name: "Notify of moderation", 
+    description: "If this file is present, the poster (based on the envelope from) will get a mail when their post is being moderated."
+  },
+  "noarchive" : {
+    name: "No archive", 
+    description: "If this file exists, the mail won't be saved in the archive but simply deleted."
+  },
+  "nosubconfirm" : {
+    name: "No subscription confirmation", 
+    description: "If this file exists, no mail confirmation is needed to subscribe to the list. This should in principle never ever be used, but there is times on local lists etc. where this is useful. HANDLE WITH CARE!"
+  },
+  "noget" : {
+    name: "No mail post retrieval", 
+    description: "If this file exists, then retrieving old posts with +get-N is disabled"
+  },
+  "subonlyget" : {
+    name: "Closed retrieval", 
+    description: "If this file exists, then retrieving old posts with +get-N is only possible for subscribers. The above mentioned 'noget' have precedence."
+  },
+  "notoccdenymails" : {
+    name: "Do not notify of rejects", 
+    description: "These switches turns off whether mlmmj sends out notification about postings being denied due to the listaddress not being in To: or Cc: (see 'tocc'), when it was rejected due to an access rule (see 'access') or whether it's a subscribers only posting list (see 'subonlypost')."
+  },
+  "noaccessdenymails" : {
+    name: "Do not notify of access", 
+    description: "These switches turns off whether mlmmj sends out notification about postings being denied due to the listaddress not being in To: or Cc: (see 'tocc'), when it was rejected due to an access rule (see 'access') or whether it's a subscribers only posting list (see 'subonlypost')."
+  },
+  "nosubonlydenymails" : {
+    name: "Do not notify of closed list", 
+    description: "These switches turns off whether mlmmj sends out notification about postings being denied due to the listaddress not being in To: or Cc: (see 'tocc'), when it was rejected due to an access rule (see 'access') or whether it's a subscribers only posting list (see 'subonlypost')."
+  },
+  "nosubmodmails" : {
+    name: "Do not notify of subscription moderation", 
+    description: "This switch turns off whether mlmmj sends out notification about subscription being moderated to the person requesting subscription (see 'submod')."
+  },
+  "nodigesttext" : {
+    name: "No digest text", 
+    description: "If this file exists, digest mails won't have a text part with a thread summary."
+  },
+  "nodigestsub" : {
+    name: "No digest subscription", 
+    description: "If this file exists, subscription to the digest version of the mailinglist will be denied. (Useful if you don't want to allow digests and notify users about it)."
+  },
+  "nonomailsub" : {
+    name: "No no-mail subscription", 
+    description: "If this file exists, subscription to the nomail version of the mailinglist will be denied. (Useful if you don't want to allow nomail and notify users about it)."
+  },
+  "nomaxmailsizedenymails" : {
+    name: "Do not notify of max size rejects", 
+    description: "If this is set, no reject notifications caused by violation of maxmailsize will be sent."
+  },
+  "nolistsubsemail" : {
+    name: "No +list functionality", 
+    description: "If this is set, the LISTNAME+list@ functionality for requesting an email with the subscribers for owner is disabled."
+  },
+  "ifmodsendonlymodmoderate" : {
+    name: "No replication of moderation mails", 
+    description: "If this file is present, then mlmmj in case of moderation checks the envelope from, to see if the sender is a moderator, and in that case only send the moderation mails to that address. In practice this means that a moderator sending mail to the list won't bother all the other moderators with his mail."
+  },
+  "notmetoo" : {
+    name: "Do not receive own posts", 
+    description: "If this file is present, mlmmj attempts to exclude the sender of a post from the distribution list for that post so people don't receive copies of their own posts."
+  }
 }
 
 /*
@@ -49,30 +124,102 @@ var available_flags = {
 
 */
 var available_lists = {
-  "listaddress" : "This file contains all addresses which mlmmj sees as listaddresses (see tocc below). The first one is the one used as the primary one, when mlmmj sends out mail.",
-  "owner" : "The emailaddresses in this file (1 pr. line) will get mails to listname+owner@listdomain.tld",
-  "customheaders" : "These headers are added to every mail coming through. This is the place you want to add Reply-To: header in case you want such.",
-  "delheaders" : " In this file is specified *ONE* headertoken to match pr. line. If the file consists of:  Received: \n\r Message-ID:  \n\r Then all occurences of these headers in incoming list mail will be deleted. \"From \" and \"Return-Path:\" are deleted no matter what.",
-  "access" : "If this file exists, all headers of a post to the list is matched against the rules. The first rule to match wins. See README.access for syntax and examples."
+  "listaddress" : {
+    name: "List addresses",
+    default: "",
+    description: "This file contains all addresses which mlmmj sees as listaddresses (see tocc below). The first one is the one used as the primary one, when mlmmj sends out mail."
+  },
+  "owner" : {
+    name: "List owner's email",
+    default: "",
+    description: "The emailaddresses in this file (1 pr. line) will get mails to listname+owner@listdomain.tld"
+  },
+  "customheaders" : {
+    name: "Custom headers",
+    default: "",
+    description: "These headers are added to every mail coming through. This is the place you want to add Reply-To: header in case you want such."
+  },
+  "delheaders" : {
+    name: "Deleted headers",
+    default: "",
+    description: "In this file is specified *ONE* header token to match per line. If the file consists of:  Received: \n\r Message-ID:  \n\r Then all occurences of these headers in incoming list mail will be deleted. \"From \" and \"Return-Path:\" are deleted no matter what."
+  },
+  "access" : {
+    name: "Access headers",
+    default: "",
+    description: "If this file exists, all headers of a post to the list is matched against the rules. The first rule to match wins."
+  }
 }
 
 var available_texts = {
-  "prefix" : "The prefix for the Subject: line of mails to the list. This will alter the Subject: line, and add a prefix if it's not present elsewhere.",
-  "footer" : "The content of this file is appended to mail sent to the list."
+  "prefix" : {
+    name: "Prefix Text",
+    default: "",
+    description: "The prefix for the Subject: line of mails to the list. This will alter the Subject: line, and add a prefix if it's not present elsewhere."
+  },
+  "footer" : {
+    name: "Footer text",
+    default: "",
+    description: "The content of this file is appended to mail sent to the list."
+  }
 }
 
 var available_values = {
-  "memorymailsize" : "Here is specified in bytes how big a mail can be and still be prepared for sending in memory. It's greatly reducing the amount of write system calls to prepare it in memory before sending it, but can also lead to denial of service attacks. Default is 16k (16384 bytes).",
-  "relayhost" : "The host specified (IP address or hostname, both works) in this file will be used for relaying the mail sent to the list. Defaults to 127.0.0.1.",
-  "digestinterval" : "This file specifies how many seconds will pass before the next digest is sent. Defaults to 604800 seconds, which is 7 days.",
-  "digestmaxmails" : "This file specifies how many mails can accumulate before digest sending is triggered. Defaults to 50 mails, meaning that if 50 mails arrive to the list before digestinterval have passed, the digest is delivered.",
-  "bouncelife" : "Here is specified for how long time in seconds an address can bounce before it's unsubscribed. Defaults to 432000 seconds, which is 5 days.",
-  "verp" : "Control how Mlmmj does VERP (variable envelope return path). If this tunable does not exist, Mlmmj will send a message to the SMTP server for each recipient, with an appropriate envelope return path, i.e. it will handle VERP itself. If the tunable does exist, Mlmmj will instead divide the recipients into groups (the maximum number of recipients in a group can be controlled by the maxverprecips tunable) and send one message to the SMTP server per group. The content of this tunable allows VERP to be handled by the SMTP server. If the tunable contains \"postfix\", Mlmmj will make Postfix use VERP by adding XVERP=-= to the MAIL FROM: line. If it contains something else, that text will be appended to the MAIL FROM: line. If it contains nothing, VERP will effectively be disabled, as neither Mlmmj nor the SMTP server will do it.",
-  "maxverprecips" : "How many recipients per mail delivered to the SMTP server. Defaults to 100.",
-  "smtpport" : "In this file a port other than port 25 for connecting to the relayhost can be specified.",
-  "delimiter" : "This specifies what to use as recipient delimiter for the list. Default is '+'.",
-  "maxmailsize" : "With this option the maximal allowed size of incoming mails can be specified.",
-  "staticbounceaddr" : "If this is set to something@example.org, the bounce address (Return-Path:) will be fixed to something+listname-bounces-and-so-on@example.org in case you need to disable automatic bounce handling."
+  "memorymailsize" : {
+    name: "Memory mail size",
+    default: "16384", 
+    description: "Here is specified in bytes how big a mail can be and still be prepared for sending in memory. It's greatly reducing the amount of write system calls to prepare it in memory before sending it, but can also lead to denial of service attacks. Default is 16k (16384 bytes)."
+  },
+  "relayhost" : {
+    name: "Relay host",
+    default: "127.0.0.1", 
+    description: "The host specified (IP address or hostname, both works) in this file will be used for relaying the mail sent to the list. Defaults to 127.0.0.1."
+  },
+  "digestinterval" : {
+    name: "Digest interval", 
+    default: "604800",
+    description: "This file specifies how many seconds will pass before the next digest is sent. Defaults to 604800 seconds, which is 7 days."
+  },
+  "digestmaxmails" : {
+    name: "Digest max emails", 
+    default: "50",
+    description: "This file specifies how many mails can accumulate before digest sending is triggered. Defaults to 50 mails, meaning that if 50 mails arrive to the list before digestinterval have passed, the digest is delivered."
+  },
+  "bouncelife" : {
+    name: "Bounce life time", 
+    default: "432000",
+    description: "Here is specified for how long time in seconds an address can bounce before it's unsubscribed. Defaults to 432000 seconds, which is 5 days."
+  },
+  "verp" : {
+    name: "Verp control", 
+    default: "",
+    description: "Control how Mlmmj does VERP (variable envelope return path). If this tunable does not exist, Mlmmj will send a message to the SMTP server for each recipient, with an appropriate envelope return path, i.e. it will handle VERP itself. If the tunable does exist, Mlmmj will instead divide the recipients into groups (the maximum number of recipients in a group can be controlled by the maxverprecips tunable) and send one message to the SMTP server per group. The content of this tunable allows VERP to be handled by the SMTP server. If the tunable contains \"postfix\", Mlmmj will make Postfix use VERP by adding XVERP=-= to the MAIL FROM: line. If it contains something else, that text will be appended to the MAIL FROM: line. If it contains nothing, VERP will effectively be disabled, as neither Mlmmj nor the SMTP server will do it."
+  },
+  "maxverprecips" : {
+    name: "Max recipients", 
+    default: "100",
+    description: "How many recipients per mail delivered to the SMTP server. Defaults to 100."
+  },
+  "smtpport" : {
+    name: "SMTP port", 
+    default: "25",
+    description: "In this file a port other than port 25 for connecting to the relayhost can be specified."
+  },
+  "delimiter" : {
+    name: "Recipient delimiter", 
+    default: "+",
+    description: "This specifies what to use as recipient delimiter for the list. Default is '+'."
+  },
+  "maxmailsize" : {
+    name: "Max mail size", 
+    default: "",
+    description: "With this option the maximal allowed size of incoming mails can be specified."
+  },
+  "staticbounceaddr" : {
+    name: "Bounce address", 
+    default: "",
+    description: "If this is set to something@example.org, the bounce address (Return-Path:) will be fixed to something+listname-bounces-and-so-on@example.org in case you need to disable automatic bounce handling."
+  }
 }
 
 MlmmjWrapper = function(path, name) {
@@ -106,6 +253,17 @@ MlmmjWrapper.listGroups = function(path) {
     return fs.readdirSync(path)
   } catch (err) {
     throw new Error("Error opening base folder " + path + ". Are you sure mlmmj is installed ?")
+  }
+
+}
+
+MlmmjWrapper.getAllAvailables = function() {
+
+  return {
+    flags: available_flags,
+    lists: available_lists,
+    values: available_values,
+    texts: available_texts
   }
 
 }
