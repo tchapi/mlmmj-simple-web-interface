@@ -10,45 +10,65 @@
 {% block content %}
 <h1>Group {{ name }} — Control</h1>
 
-<h3>Control flags</h3>
-<ul class="flags">
-{% for key, flag in flags %}
+<div class="row">
 
-  <li><input type="checkbox" id="{{ key }}" {% if flag == true %}checked="checked"{% endif %}> <label for="{{ key }}">{{ key }}</label></li>
+  <div class="col-lg-3">
+    <h3>Control flags</h3>
+    <form id="flags" class="form-horizontal">
+      {% for key, flag in flags %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="{{ key }}" {% if flag == true %}checked="checked"{% endif %}> {{ availables['flags'][key].name }}
+          </label>
+        </div>
+      {% endfor %}
+    </form>
+    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="flags"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+  </div>
 
-{% endfor %}
-</ul>
-<a class="save" href="/group/{{ name }}/save" data-key="flags">Save</a>
+  <div class="col-lg-3">
+    <h3>Values</h3>
+    <form id="values" class="form-horizontal">
+      {% for key, value in values %}
+        <div class="form-group">
+          <label for="{{ key }}" class="col-sm-6 control-label">{{ availables['values'][key].name }}</label>
+          <div class="col-sm-6">
+            <input id="{{ key }}" class="form-control" type="text" placeholder="{{ availables['values'][key].default }}" value="{{ value }}">
+          </div>
+        </div>
+      {% endfor %}
+    </form>
+    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="values"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+  </div>
 
-<h3>Texts</h3>
-<ul class="texts">
-{% for key, text in texts %}
+  <div class="col-lg-3">
+    <h3>Texts</h3>
+    <form id="texts">
+      {% for key, text in texts %}
+        <div class="form-group">
+          <label for="{{ key }}" class="control-label">{{ availables['texts'][key].name }}</label>
+          <textarea id="{{ key }}" class="form-control" >{{ text }}</textarea>
+        </div>
+      {% endfor %}
+    </form>
+    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="texts"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+  </div>
 
-  <li><label for="{{ key }}">{{ key }}</label><textarea id="{{ key }}">{{ text }}</textarea></li>
+  <div class="col-lg-3">
+    <h3>Lists</h3>
+    <form id="lists">
+      {% for key, list in lists %}
+        <div class="form-group">
+          <label for="{{ key }}" class="control-label">{{ availables['lists'][key].name }}</label>
+          <textarea id="{{ key }}" class="form-control" >{{ list }}</textarea>
+        </div>
+      {% endfor %}
+    </form>
+    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="lists"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+  </div>
 
-{% endfor %}
-</ul>
-<a class="save" href="/group/{{ name }}/save" data-key="texts">Save</a>
+</div>
 
-<h3>Values</h3>
-<ul class="values">
-{% for key, value in values %}
-
-  <li><label for="{{ key }}">{{ key }}</label><input id="{{ key }}" type="text" value="{{ value }}"></li>
-
-{% endfor %}
-</ul>
-<a class="save" href="/group/{{ name }}/save" data-key="values">Save</a>
-
-<h3>Lists</h3>
-<ul class="lists">
-{% for key, list in lists %}
-
-  <li><label for="{{ key }}">{{ key }}</label><textarea id="{{ key }}">{{ list }}</textarea></li>
-
-{% endfor %}
-</ul>
-<a class="save" href="/group/{{ name }}/save" data-key="lists">Save</a>
 {% endblock %}
 
 {% block js %}

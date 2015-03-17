@@ -10,14 +10,26 @@
 {% block content %}
 <h1>Group {{ name }} — subscribers</h1>
 
-<ul class="subscribers">
-{% for subscriber in subscribers %}
+<div class="row">
+  <div class="col-lg-4 well">
+    <form>
+      <div class="form-group">
+        <label for="email">New subscriber</label>
+        <input id="email" type="text" class="form-control" data-key="subscribers" placeholder="Email">
+      </div>
+      <a class="add btn btn-success" data-key="subscribers" data-group="{{ name }}" href="/group/{{ name }}/add">Add a subscriber</a>
+    </form>
+  </div>
+  <div class="col-lg-7 col-lg-offset-1">
+    <h4>Suscribers list</h4>
+    <ul id="subscribers">
+    {% for subscriber in subscribers %}
+      <li>{{ subscriber }} <a class="remove" href="/group/{{ name }}/remove" data-key="subscribers" data-element="{{ subscriber }}">Remove</a> </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
 
-  <li>{{ subscriber }} <a class="remove" href="/group/{{ name }}/remove" data-key="subscribers" data-element="{{ subscriber }}">Remove</a> </li>
-
-{% endfor %}
-  <li><input type="text" data-key="subscribers"><a class="add" data-key="subscribers" href="/group/{{ name }}/add">Add</a></li>
-</ul>
 {% endblock %}
 
 {% block js %}

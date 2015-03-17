@@ -79,6 +79,7 @@ app.get('/group/:name/control', function(req, res){
     res.render('control', {
       title: 'Group ' + req.name,
       name: req.name,
+      availables : Mlmmj.getAllAvailables(),
       flags: req.group.getFlags(),
       texts: req.group.getTexts(),
       values: req.group.getValues(),

@@ -6,6 +6,6 @@
     "name": "Mlmmj Web Interface"
   },
   "mlmmj": {
-    "path": "/tmp/mlmmj"
+    "path": "/var/spool/mlmmj"
   }
 }
