@@ -1,0 +1,38 @@
+{% extends "views/base.html" %}
+{% block breadcrumb %}
+  <li>All mailing lists</li>
+  <li><a href="/group/{{name}}">{{ name }}</a></li>
+  <li><a href="/group/{{name}}/archive">Archives</a></li>
+  <li class="active">Mail #{{ id }}</li>
+{% endblock %}
+    
+{% block content %}
+<h1>Mail #{{ id }} : {{ mail.subject }}</h1>
+
+<div class="well">
+  <p><strong>Received on</strong> {{ mail.date }}</p>
+  <ul class='mailheaders'>
+    <li><strong>from:</strong> {% for from_value in mail.from %}{{ from_value.address }}{% endfor %}</li>
+    <li><strong>to:</strong> {% for to_value in mail.to %}{{ to_value.address }}{% endfor %}</li>
+    {% if mail.cc|length > 0 %}
+    <li><em><strong>cc:</strong> {% for cc_value in mail.cc %}{{ cc_value.address }}{% endfor %}</em></li>
+    {% endif %}
+  </ul>
+</div>
+
+{% if nobody %}
+  <em>No content</em>
+{% else %}
+  {{ mail.html }}
+{% endif %}
+
+<div class="attachments">
+  <p><strong>Attachments : </strong> {{ mail.attachments|length }}</p>
+  <ul>
+    {% for att in mail.attachments %}
+      <li>{{ att.name }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

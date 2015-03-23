@@ -1,14 +1,23 @@
 {% extends "views/base.html" %}
 
 {% block breadcrumb %}
-<li><a href="/">Home</a></li>
-<li><a href="/list">All groups</a></li>
+<li><a href="/">All mailing lists</a></li>
 <li><a href="/group/{{name}}">{{ name }}</a></li>
-<li class="active">Control</li>
+<li class="active">Parameters</li>
 {% endblock %}
 
 {% block content %}
-<h1>Group {{ name }} — Control</h1>
+<h1>Mailing list {{ name }} — Parameters</h1>
+
+<p class="intro">
+<em>From the documentation at <a href="http://mlmmj.org/docs/tunables/" target="_blank">➡ http://mlmmj.org/docs/tunables/</a> :</em> The following files can be used for changing the behaviour of a list. The
+filename is supposed to be below listdir/control. In the case it's a "boolean",
+the contents of a file does not matter, the mere presence of it, will set the
+variable to "true". If it's a "normal" file, the first line will be used as
+value, leaving line 2 and forward ready for commentary etc. If it's possible
+to specify several entries (one pr. line), it's marked "list". If the file's
+entire content is used as value, it's marked "text".
+</p>
 
 <div class="row">
 
@@ -20,10 +29,14 @@
           <label>
             <input type="checkbox" id="{{ key }}" {% if flag == true %}checked="checked"{% endif %}> {{ availables['flags'][key].name }}
           </label>
+          <a class="help" data-toggle="popover" title="{{ availables['flags'][key].name }}" data-content="{{ availables['flags'][key].description }}">ⓘ</a>
         </div>
       {% endfor %}
     </form>
-    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="flags"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+    <div class="actions">
+      <em class="status" style="display: none;">All settings saved</em>
+      <a class="save btn btn-success pull-right" href="/group/{{ name }}/save" data-key="flags">Save</a>
+    </div>
   </div>
 
   <div class="col-lg-3">
@@ -31,14 +44,17 @@
     <form id="values" class="form-horizontal">
       {% for key, value in values %}
         <div class="form-group">
-          <label for="{{ key }}" class="col-sm-6 control-label">{{ availables['values'][key].name }}</label>
-          <div class="col-sm-6">
+          <label for="{{ key }}" class="col-sm-7 control-label">{{ availables['values'][key].name }} <a class="help" data-toggle="popover" title="{{ availables['values'][key].name }}" data-content="{{ availables['values'][key].description }}">ⓘ</a></label>
+          <div class="col-sm-5">
             <input id="{{ key }}" class="form-control" type="text" placeholder="{{ availables['values'][key].default }}" value="{{ value }}">
           </div>
         </div>
       {% endfor %}
     </form>
-    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="values"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+    <div class="actions">
+      <em class="status" style="display: none;">All settings saved</em>
+      <a class="save btn btn-success pull-right" href="/group/{{ name }}/save" data-key="values">Save</a>
+    </div>
   </div>
 
   <div class="col-lg-3">
@@ -46,12 +62,15 @@
     <form id="texts">
       {% for key, text in texts %}
         <div class="form-group">
-          <label for="{{ key }}" class="control-label">{{ availables['texts'][key].name }}</label>
+          <label for="{{ key }}" class="control-label">{{ availables['texts'][key].name }} <a class="help" data-toggle="popover" title="{{ availables['texts'][key].name }}" data-content="{{ availables['texts'][key].description }}">ⓘ</a></label>
           <textarea id="{{ key }}" class="form-control" >{{ text }}</textarea>
         </div>
       {% endfor %}
     </form>
-    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="texts"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+    <div class="actions">
+      <em class="status" style="display: none;">All settings saved</em>
+      <a class="save btn btn-success pull-right" href="/group/{{ name }}/save" data-key="texts">Save</a>
+    </div>
   </div>
 
   <div class="col-lg-3">
@@ -59,12 +78,15 @@
     <form id="lists">
       {% for key, list in lists %}
         <div class="form-group">
-          <label for="{{ key }}" class="control-label">{{ availables['lists'][key].name }}</label>
+          <label for="{{ key }}" class="control-label">{{ availables['lists'][key].name }} <a class="help" data-toggle="popover" title="{{ availables['lists'][key].name }}" data-content="{{ availables['lists'][key].description }}">ⓘ</a></label>
           <textarea id="{{ key }}" class="form-control" >{{ list }}</textarea>
         </div>
       {% endfor %}
     </form>
-    <a class="save btn btn-primary" href="/group/{{ name }}/save" data-key="lists"><span class="saving" style="display: none;">Saving ...</span><span>Save</span></a>
+    <div class="actions">
+      <em class="status" style="display: none;">All settings saved</em>
+      <a class="save btn btn-success pull-right" href="/group/{{ name }}/save" data-key="lists">Save</a>
+    </div>
   </div>
 
 </div>

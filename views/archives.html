@@ -1,0 +1,22 @@
+{% extends "views/base.html" %}
+{% block breadcrumb %}
+  <li>All mailing lists</li>
+  <li><a href="/group/{{name}}">{{ name }}</a></li>
+  <li class="active">Archives</li>
+{% endblock %}
+    
+{% block content %}
+<h1>Archives</h1>
+
+<p class="intro">
+  This page lists all the archives of the mailing list.
+</p>
+
+<ul>
+{% for archive in archives %}
+
+  <li><a href="/group/{{ name }}/archive/{{ archive }}">{{ archive }}</a></li>
+
+{% endfor %}
+</ul>
+{% endblock %}

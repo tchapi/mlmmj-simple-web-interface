@@ -1,32 +1,37 @@
 {% extends "views/base.html" %}
 
 {% block breadcrumb %}
-<li><a href="/">Home</a></li>
-<li><a href="/list">All groups</a></li>
+<li><a href="/">All mailing lists</a></li>
 <li><a href="/group/{{name}}">{{ name }}</a></li>
 <li class="active">Subscribers</li>
 {% endblock %}
 
 {% block content %}
-<h1>Group {{ name }} — subscribers</h1>
+<h1>Mailing list {{ name }} — subscribers</h1>
+
+<p class='intro'>
+This page lists all the current subscribers to the list.
+</p>
 
 <div class="row">
-  <div class="col-lg-4 well">
-    <form>
-      <div class="form-group">
-        <label for="email">New subscriber</label>
-        <input id="email" type="text" class="form-control" data-key="subscribers" placeholder="Email">
-      </div>
-      <a class="add btn btn-success" data-key="subscribers" data-group="{{ name }}" href="/group/{{ name }}/add">Add a subscriber</a>
-    </form>
-  </div>
-  <div class="col-lg-7 col-lg-offset-1">
+  <div class="col-lg-4">
     <h4>Suscribers list</h4>
     <ul id="subscribers">
     {% for subscriber in subscribers %}
       <li>{{ subscriber }} <a class="remove" href="/group/{{ name }}/remove" data-key="subscribers" data-element="{{ subscriber }}">Remove</a> </li>
     {% endfor %}
     </ul>
+  </div>
+  <div class="col-lg-4 col-lg-offset-1">
+    <div class="well">
+      <form>
+        <div class="form-group">
+          <label for="email">New subscriber</label>
+          <input id="email" type="email" class="form-control" data-key="subscribers" placeholder="Email">
+        </div>
+        <a class="add btn btn-success" data-key="subscribers" data-group="{{ name }}" href="/group/{{ name }}/add">Add a subscriber</a>
+      </form>
+    </div>
   </div>
 </div>
 

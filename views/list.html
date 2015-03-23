@@ -1,16 +1,20 @@
 {% extends "views/base.html" %}
 {% block breadcrumb %}
-  <li><a href="/">Home</a></li>
-  <li class="active">All groups</li>
+  <li class="active">All mailing lists</li>
 {% endblock %}
     
-
 {% block content %}
-  <ul>
-  {% for group in groups %}
+<h1>Mailing lists</h1>
 
-    <li><a href="/group/{{ group }}">{{ group }}</a></li>
+<p class="intro">
+  This page lists the content of <kbd>{{ directory }}</kbd> that contains all the mailing lists managed by mlmmj.
+</p>
 
-  {% endfor %}
-  </ul>
+<ul>
+{% for group in groups %}
+
+  <li><a href="/group/{{ group }}">{{ group }}</a></li>
+
+{% endfor %}
+</ul>
 {% endblock %}

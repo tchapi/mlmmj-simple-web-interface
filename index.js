@@ -44,15 +44,17 @@ app.param('name', function(req, res, next, name) {
     next()
 })
 
-app.get('/', function (req, res) {
+app.param('mail_id', function(req, res, next, mail_id){
 
-  res.render('index', {
-    title: 'Home'
+  req.group.getArchive(mail_id, function(mail_object){
+    req.mail = mail_object
+    req.mail_id = mail_id
+    next()
   })
 
 })
 
-app.get('/list', function (req, res) {
+app.get('/', function (req, res) {
 
   try {
     groups = Mlmmj.listGroups(config.get('mlmmj').path)
@@ -63,6 +65,7 @@ app.get('/list', function (req, res) {
 
   res.render('list', {
     title: 'List',
+    directory: config.get('mlmmj').path,
     groups: groups
   })
 
@@ -70,14 +73,14 @@ app.get('/list', function (req, res) {
 
 app.get('/group/:name', function(req, res){ 
     res.render('group', {
-      title: 'Group ' + req.name,
+      title: 'Mailing list ' + req.name,
       name: req.name
     })
 })
 
 app.get('/group/:name/control', function(req, res){
     res.render('control', {
-      title: 'Group ' + req.name,
+      title: 'Mailing list ' + req.name,
       name: req.name,
       availables : Mlmmj.getAllAvailables(),
       flags: req.group.getFlags(),
@@ -89,7 +92,7 @@ app.get('/group/:name/control', function(req, res){
 
 app.get('/group/:name/subscribers', function(req, res){
     res.render('subscribers', {
-      title: 'Group ' + req.name,
+      title: 'Mailing list ' + req.name,
       name: req.name,
       subscribers: req.group.getSubscribers()
     })
@@ -151,6 +154,42 @@ app.post('/group/:name/add/:key', function(req, res){
     // Save to disk
     req.group.saveAll()
     res.status(200).send("1")
+})
+
+
+app.get('/group/:name/archive', function(req, res){
+
+    try {
+      archives = req.group.listArchives()
+    } catch (err) {
+      res.status(500).send(err.name + " : " + err.message)
+      return
+    }
+
+    res.render('archives', {
+      title: 'Mailing list ' + req.name,
+      name: req.name,
+      archives: archives
+    })
+})
+
+app.get('/group/:name/archive/:mail_id', function(req, res){
+  if (/^\s+$/.test(req.mail.text))
+  {
+    //string contains only whitespace
+    nobody = true
+  } else {
+    nobody = false
+  }
+
+  console.log(req.mail.text)
+    res.render('archive', {
+      title: 'Mailing list ' + req.name,
+      id: req.mail_id,
+      name: req.name,
+      nobody: nobody,
+      mail: req.mail
+    })
 })
 
 // Start application

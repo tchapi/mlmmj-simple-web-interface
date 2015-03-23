@@ -1,5 +1,9 @@
 var fs = require('fs')
 
+// Add mail parser module
+var MailParser = require("mailparser").MailParser,
+    mailparser = new MailParser();
+
 /*
 
   Mlmmj standard folders
@@ -85,7 +89,7 @@ var available_flags = {
     description: "These switches turns off whether mlmmj sends out notification about postings being denied due to the listaddress not being in To: or Cc: (see 'tocc'), when it was rejected due to an access rule (see 'access') or whether it's a subscribers only posting list (see 'subonlypost')."
   },
   "nosubmodmails" : {
-    name: "Do not notify of subscription moderation", 
+    name: "Do not notify of subs moderation", 
     description: "This switch turns off whether mlmmj sends out notification about subscription being moderated to the person requesting subscription (see 'submod')."
   },
   "nodigesttext" : {
@@ -181,7 +185,7 @@ var available_values = {
     description: "This file specifies how many seconds will pass before the next digest is sent. Defaults to 604800 seconds, which is 7 days."
   },
   "digestmaxmails" : {
-    name: "Digest max emails", 
+    name: "Digest emails", 
     default: "50",
     description: "This file specifies how many mails can accumulate before digest sending is triggered. Defaults to 50 mails, meaning that if 50 mails arrive to the list before digestinterval have passed, the digest is delivered."
   },
@@ -206,7 +210,7 @@ var available_values = {
     description: "In this file a port other than port 25 for connecting to the relayhost can be specified."
   },
   "delimiter" : {
-    name: "Recipient delimiter", 
+    name: "Delimiter", 
     default: "+",
     description: "This specifies what to use as recipient delimiter for the list. Default is '+'."
   },
@@ -545,6 +549,26 @@ p.saveSubscribers = function() {
     fs.writeSync(fd, this.subscribers[key] + '\n')
     fs.closeSync(fd)
   }
+}
+
+
+p.listArchives = function() {
+
+  try {
+    return fs.readdirSync(this.path + "/" + archive_folder)
+  } catch (err) {
+    throw new Error("Error opening archives at " + this.path + "/" + archive_folder)
+  }
+
+}
+
+p.getArchive = function(id, callback) {
+
+  email = fs.readFileSync(this.path + "/" + archive_folder + "/" + id, { "encoding": 'utf8'})
+  mailparser.once('end', callback)
+  
+  return mailparser.end(email)
+
 }
 
 module.exports = MlmmjWrapper

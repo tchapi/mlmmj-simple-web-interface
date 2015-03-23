@@ -1,6 +1,56 @@
 body { /* For the navbar height */
   padding-top: 70px;
+  padding-bottom: 50px;
 }
+
+/* reduce margin under breadcrumb */
+.breadcrumb {
+  margin-bottom: 0;
+}
+
+/* Give some headroom to the intro <p>*/
+p.intro {
+  margin-top: 20px;
+}
+
+/* Actions under each column */
+.actions {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #CCC;
+}
+
+/* Border below navbar */
 .navbar {
   border-bottom: 3px solid #337ab7;
+}
+
+/* Little (i) help buttons */
+a.help {
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 5px;
+  font-weight: normal;
+}
+a.help:hover {
+  color: black;
+}
+
+/* Mail headers on archive page */
+.mailheaders {
+  list-style-type: none;
+  padding-left: 10px;
+  border-left: 2px solid #AAA;
+}
+
+/* Separate attachments */
+.attachments {
+  border-top: 1px solid #CCC;
+  padding-top: 10px;
+  margin-top: 20px;
+}
+
+/* Popovers */
+.popover {
+  width: 200px;
 }

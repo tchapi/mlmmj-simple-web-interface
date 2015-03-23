@@ -45,19 +45,24 @@ $(document).ready(function(){
     in the page. We then send them out to the server.
   */
   $('.save').on('click', function() {
-    $(this).find('.saving').show();
-    $(this).find(':not(.saving)').hide();
+
+    /* The status <em> element */
+    var status = $(this).siblings('.status')[0]
+    $(status).show()
+    status.innerHTML = 'Saving ...'
+    
     item = $(this).attr('data-key')
     data = (new get())[item]()
 
     $.post(this.href + '/' + item, data, function( data ) {
       if (data == 1) {
         console.log("saved")
+        status.innerHTML = 'Saved.'
+        $(status).fadeOut(3000)
       } else {
         console.log("error")
+        status.innerHTML = 'Error.'
       }
-      $(this).find('.saving').hide();
-      $(this).find(':not(.saving)').show();
     }.bind(this))
 
     return false
@@ -85,9 +90,21 @@ $(document).ready(function(){
         }
       }).bind(this))
     }
-    
+
     return false
   })
+
+  /* Catch a Enter keypress in the email field */
+  document.getElementById('email').onkeypress = function(e){
+    if (!e) e = window.event;
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13){
+      // Enter pressed
+      $('.add').trigger('click')
+      e.target.value = "" // Empty field
+      return false
+    }
+  }
 
   /*
     This function is called when users remove an element from a group of elements of the group.

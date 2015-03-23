@@ -1,13 +1,16 @@
 {% extends "views/base.html" %}
 
 {% block breadcrumb %}
-<li><a href="/">Home</a></li>
-<li><a href="/list">All groups</a></li>
+<li><a href="/">All mailing lists</a></li>
 <li class="active">{{ name }}</li>
 {% endblock %}
 
 {% block content %}
-<h1>Group {{ name }} — management</h1>
+<h1>Mailing list {{ name }} — Management</h1>
+
+<p class="intro">
+For the mailing list, you can either change the tunables (parameters), add or remove subscribers and browse the mail archives
+</p>
 
 <ul>
   <li><a href="/group/{{ name }}/control">Manage group parameters</a></li>
