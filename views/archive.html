@@ -2,13 +2,18 @@
 {% block breadcrumb %}
   <li>All mailing lists</li>
   <li><a href="/group/{{name}}">{{ name }}</a></li>
-  <li><a href="/group/{{name}}/archive">Archives</a></li>
+  <li><a href="/group/{{name}}/archives">Archives</a></li>
   <li class="active">Mail #{{ id }}</li>
 {% endblock %}
     
 {% block content %}
 <h1>Mail #{{ id }} : {{ mail.subject }}</h1>
-
+<p class="clearfix">
+  {% if id - 1 > 0 %}
+  <span class="pull-left"><a href="/group/{{name}}/archive/{{ id - 1 }}">&larr; Prev</a></span>
+  {% endif %}
+  <span class="pull-right"><a href="/group/{{name}}/archive/{{ id - (-1) }}">Next &rarr;</a></span>
+</p>
 <div class="well">
   <p><strong>Received on</strong> {{ mail.date }}</p>
   <ul class='mailheaders'>
