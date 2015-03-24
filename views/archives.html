@@ -2,7 +2,22 @@
 {% block breadcrumb %}
   <li>All mailing lists</li>
   <li><a href="/group/{{name}}">{{ name }}</a></li>
+  {% if year %}
+  <li><a href="/group/{{name}}/archives">Archives</a></li>
+    {% if month %}
+    <li><a href="/group/{{name}}/archives/{{year}}">{{ year }}</a></li>
+      {% if day %}
+      <li><a href="/group/{{name}}/archives/{{year}}/{{month}}">{{ month }}</a></li>
+      <li class="active">{{ day }}</li>
+      {% else %}
+      <li class="active">{{ month }}</li>
+      {% endif %}
+    {% else %}
+    <li class="active">{{ year }}</li>
+    {% endif %}
+  {% else %}
   <li class="active">Archives</li>
+  {% endif %}
 {% endblock %}
     
 {% block content %}
@@ -13,10 +28,21 @@
 </p>
 
 <ul>
-{% for archive in archives %}
 
-  <li><a href="/group/{{ name }}/archive/{{ archive }}">{{ archive }}</a></li>
+  {% for key, mails in archives %}
+    {% if day == null or key == day %}
+    <li>
+      {% if year %}{{ year }}{% else %}{{ key }}{% endif %}{% if month and year %}/{{ month }}/{{ key }}{% elif year and not month %}/{{ key }}{% endif %}
+      : {{ mails|length  }} mails
+        (<a href="/group/{{ name }}/archives/{% if year %}{{ year }}{% else %}{{ key }}{% endif %}{% if month and year %}/{{ month }}/{{ key }}{% elif year and not month %}/{{ key }}{% endif %}">refine</a>) :
+        <ul>
+        {% for mail in mails %}
+          <li><a href="/group/{{ name }}/archive/{{mail}}">Mail #{{ mail }}</a></li>
+        {% endfor %}
+        </ul>
+    </li>
+    {% endif %}
+  {% endfor %}
 
-{% endfor %}
 </ul>
 {% endblock %}

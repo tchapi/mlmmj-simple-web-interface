@@ -562,6 +562,47 @@ p.listArchives = function() {
 
 }
 
+p.listArchives = function(year, month) {
+
+  var result = {};
+
+  var dir = this.path + "/" + archive_folder
+  var files = fs.readdirSync(dir)
+              .map(function(v) { 
+                  var timestamp = fs.statSync(dir + "/" + v).mtime
+
+                  if (month != null) {
+                    key = timestamp.getDate()
+                    if (timestamp.getYear() + 1900 == year && timestamp.getMonth() + 1 == month) {
+                      if ( !(result[key] instanceof Array)) {
+                        result[key] = []
+                      }
+                      result[key].push(v);
+                    }
+                  } else if (year != null) {
+                    key = timestamp.getMonth() + 1 // Starts from 0 = Jan
+                    if (timestamp.getYear() + 1900 == year) {
+                      if ( !(result[key] instanceof Array)) {
+                        result[key] = []
+                      }
+                      result[key].push(v);
+                    }
+                  } else {
+                    key = timestamp.getYear() + 1900
+                    if ( !(result[key] instanceof Array)) {
+                      result[key] = []
+                    }
+                    result[key].push(v);
+                  }
+
+                  return null; 
+               })
+
+  return result
+
+}
+
+
 p.getArchive = function(id, callback) {
 
   email = fs.readFileSync(this.path + "/" + archive_folder + "/" + id, { "encoding": 'utf8'})

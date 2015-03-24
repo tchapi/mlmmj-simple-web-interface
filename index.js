@@ -156,11 +156,10 @@ app.post('/group/:name/add/:key', function(req, res){
     res.status(200).send("1")
 })
 
-
-app.get('/group/:name/archive', function(req, res){
+app.get('/group/:name/archives/:year?/:month?/:day?', function(req, res){
 
     try {
-      archives = req.group.listArchives()
+      archives = req.group.listArchives(req.params.year, req.params.month)
     } catch (err) {
       res.status(500).send(err.name + " : " + err.message)
       return
@@ -169,6 +168,9 @@ app.get('/group/:name/archive', function(req, res){
     res.render('archives', {
       title: 'Mailing list ' + req.name,
       name: req.name,
+      year: req.params.year,
+      month: req.params.month,
+      day: req.params.day,
       archives: archives
     })
 })
