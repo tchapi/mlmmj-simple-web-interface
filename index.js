@@ -1,54 +1,64 @@
 var express = require('express')
 var bodyParser = require('body-parser')
-var flash = require('connect-flash');
+var flash = require('connect-flash')
 var session = require('express-session')
 var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
-
-var app = express()
-
-  app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
-  app.use(flash());
-  app.use(passport.initialize());
-  app.use(passport.session());
+  , LocalStrategy = require('passport-local').Strategy
 
 // Add config module
 var CONFIG = require('./services/ConfigParser')
-var config = new CONFIG()
-
-// Static content
-app.use(express.static(__dirname + '/public'));
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
+  , config = new CONFIG()
 
 // Consolidate, to make beautiful templates in nunjucks
 var cons = require('consolidate')
 
-// Assign the swig engine to .html files
-app.engine('html', cons.nunjucks)
-
-// Set .html as the default extension
-app.set('view engine', 'html')
-app.set('views', __dirname + '/views')
-
 // Add mlmmj service wrapper module
 var Mlmmj = require('./services/MlmmjWrapper')
+
+
+var app = express()
+
+/* Configuration is done here
+*/
+  // Handy flash messages
+  app.use(flash())
+
+  // Use sessions
+  app.use(session({ name: "mlmmj.web.session.id", secret: 'mlmmjNotSoSecretPhrase', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }))
+
+  // Use passport-local auth system with persistent sessions
+  app.use(passport.initialize())
+  app.use(passport.session())
+
+  // Static content
+  app.use(express.static(__dirname + '/public'))
+
+  // .. parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({ extended: false }))
+
+  // .. parse application/json
+  app.use(bodyParser.json())
+
+  // Assign the swig engine to .html files
+  app.engine('html', cons.nunjucks)
+
+  // Set .html as the default extension
+  app.set('view engine', 'html')
+  app.set('views', __dirname + '/views')
+
+/* End Express Configuration
+*/
 
 // Passport users setup.
 function findByUsername(username, fn) {
   for (var i = 0, len = config.get('users').length; i < len; i++) {
-    var user = config.get('users')[i];
+    var user = config.get('users')[i]
     if (user.username === username) {
-      return fn(null, user);
+      return fn(null, user)
     }
   }
-  return fn(null, null);
+  return fn(null, null)
 }
-
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -56,12 +66,12 @@ function findByUsername(username, fn) {
 //   this will be as simple as storing the user ID when serializing, and finding
 //   the user by ID when deserializing.
 passport.serializeUser(function(user, done) {
-  done(null, user.username);
+  done(null, user.username)
 });
 
 passport.deserializeUser(function(username, done) {
   findByUsername(username, function (err, user) {
-    done(err, user);
+    done(err, user)
   });
 });
 
@@ -76,10 +86,10 @@ passport.use(new LocalStrategy(
       // indicate failure and set a flash message.  Otherwise, return the
       // authenticated `user`.
       findByUsername(username, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-        if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
-        return done(null, user);
+        if (err) { return done(err) }
+        if (!user) { return done(null, false, { message: 'Unknown user ' + username }) }
+        if (user.password != password) { return done(null, false, { message: 'Invalid password' }) }
+        return done(null, user)
       })
     });
   }
@@ -106,16 +116,16 @@ function ensureAuthenticated(req, res, next) {
 app.post('/login', 
   passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
   function(req, res) {
-    res.redirect(req.session.returnTo || '/');
+    res.redirect('/');
   });
 
 app.get('/login', function(req, res){
-  res.render('login', { hideLogout: true, title: "Login", message: req.flash('error') });
+  res.render('login', { hideLogout: true, title: "Login", message: req.flash('error') })
 });
 
 app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/login');
+  req.logout()
+  res.redirect('/login')
 });
 
 
