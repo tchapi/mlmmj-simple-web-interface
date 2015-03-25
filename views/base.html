@@ -15,7 +15,13 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">Mlmmj web interface</a>
     </div>
+    {% if hideLogout == true %}{% else %}
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+    {% endif %}
   </div>
+
 </nav>
 
 <div class="container">

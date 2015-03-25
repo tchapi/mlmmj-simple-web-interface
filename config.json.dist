@@ -5,6 +5,9 @@
   "app": {
     "name": "Mlmmj Web Interface"
   },
+  "users": [
+    { "username": "admin", "password": "secret"}
+  ],
   "mlmmj": {
     "path": "/var/spool/mlmmj"
   }
