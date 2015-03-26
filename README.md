@@ -18,6 +18,26 @@ This is a Node.js app, that uses :
 
 And some local modules like `ConfigParser` (_cf. source code if you want to see more_)
   
+## Functionalities
+
+  * Parameters
+
+    The app allows to modify all tunables (files present in /control) : values, lists, texts and booleans
+
+  * Subscribers
+
+    The app allows to modify all tunables (files present in /control) : values, lists, texts and booleans
+
+  * Archives
+
+    There is also a very simplist archives browser that can display archives by year, month, day, and individual files. No thread yet, though (see TODO)
+       
+
+## Screenshots 
+
+![list actions](https://raw.githubusercontent.com/tchapi/mlmmj-simple-web-interface/master/screenshots/image1.png "Mailing list actions")
+![control parameters](https://raw.githubusercontent.com/tchapi/mlmmj-simple-web-interface/master/screenshots/image2.png "Control parameters")
+
 ## Configuration
 
 Some options are available in the `config.json` file. Before launching the app,you must copy `config.json.dist` to `config.json` and change the desired settings : 
@@ -59,5 +79,7 @@ MIT ! See the [licence](https://github.com/tchapi/mlmmj-simple-web-interface/blo
 
   * Implement other functions such as :
       - i18n texts editing
+  * Browse Archives by thread
+  * Improve Archives altogether (subject of mail in lists, etc)
   * Add a button to restart exim / postfix ?
   
