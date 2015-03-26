@@ -15,6 +15,7 @@ This is a Node.js app, that uses :
   * [Express](http://expressjs.com/) as a global framework, with sessions and flash messages
   * [Consolidate](https://github.com/tj/consolidate.js) & [Nunjucks](https://mozilla.github.io/nunjucks) as the template engine
   * [Passportjs](http://passportjs.org) for the authentification
+  * [Bootstrap](http://getbootstrap.com) for the frontend
 
 And some local modules like `ConfigParser` (_cf. source code if you want to see more_)
   

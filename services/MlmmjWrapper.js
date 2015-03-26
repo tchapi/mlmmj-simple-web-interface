@@ -1,8 +1,8 @@
 var fs = require('fs')
 
 // Add mail parser module
-var MailParser = require("mailparser").MailParser,
-    mailparser = new MailParser();
+var MailParser = require("mailparser").MailParser
+  , mailparser = new MailParser();
 
 /*
 
@@ -551,23 +551,11 @@ p.saveSubscribers = function() {
   }
 }
 
-
-p.listArchives = function() {
-
-  try {
-    return fs.readdirSync(this.path + "/" + archive_folder)
-  } catch (err) {
-    throw new Error("Error opening archives at " + this.path + "/" + archive_folder)
-  }
-
-}
-
 p.listArchives = function(year, month) {
-
-  var result = {};
-
-  var dir = this.path + "/" + archive_folder
-  var files = fs.readdirSync(dir)
+  var result = {}
+    , dir = this.path + "/" + archive_folder
+  try {
+    var files = fs.readdirSync(dir)
               .map(function(v) { 
                   var timestamp = fs.statSync(dir + "/" + v).mtime
 
@@ -597,19 +585,18 @@ p.listArchives = function(year, month) {
 
                   return null; 
                })
+  } catch (err) {
+    throw new Error("Error opening archives at " + this.path + "/" + archive_folder)
+  }
 
   return result
-
 }
 
 
 p.getArchive = function(id, callback) {
-
   email = fs.readFileSync(this.path + "/" + archive_folder + "/" + id, { "encoding": 'utf8'})
   mailparser.once('end', callback)
-  
   return mailparser.end(email)
-
 }
 
 module.exports = MlmmjWrapper
