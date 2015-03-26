@@ -95,14 +95,16 @@ $(document).ready(function(){
   })
 
   /* Catch a Enter keypress in the email field */
-  document.getElementById('email').onkeypress = function(e){
-    if (!e) e = window.event;
-    var keyCode = e.keyCode || e.which;
-    if (keyCode === 13){
-      // Enter pressed
-      $('.add').trigger('click')
-      e.target.value = "" // Empty field
-      return false
+  if (document.getElementById('email')) {
+    document.getElementById('email').onkeypress = function(e){
+      if (!e) e = window.event;
+      var keyCode = e.keyCode || e.which;
+      if (keyCode === 13){
+        // Enter pressed
+        $('.add').trigger('click')
+        e.target.value = "" // Empty field
+        return false
+      }
     }
   }
 
