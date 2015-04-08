@@ -85,6 +85,7 @@ $(document).ready(function(){
         if (data == 1) {
           console.log("added")
           $("#" + item).append('<li>' + value + ' <a class="remove" href="/group/' + group + '/remove" data-key="' + item + '" data-element="' + value + '">Remove</a></li>')
+          $(this).val("") // Empty field
         } else {
           console.log("error")
         }
