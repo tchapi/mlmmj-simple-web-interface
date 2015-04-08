@@ -24,7 +24,7 @@ var app = express()
   app.use(flash())
 
   // Use sessions
-  app.use(session({ name: "mlmmj.web.session.id", secret: 'mlmmjNotSoSecretPhrase', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }))
+  app.use(session({ name: "mlmmj.web.session.id", secret: 'mlmmjNotSoSecretPhrase', cookie: { maxAge: null }, resave: true, saveUninitialized: true }))
 
   // Use passport-local auth system with persistent sessions
   app.use(passport.initialize())
