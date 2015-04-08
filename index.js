@@ -11,6 +11,7 @@ var CONFIG = require('./services/ConfigParser')
 
 // Consolidate, to make beautiful templates in nunjucks
 var cons = require('consolidate')
+  , nunjucks = require('nunjucks')
 
 // Add mlmmj service wrapper module
 var Mlmmj = require('./services/MlmmjWrapper')
@@ -20,6 +21,11 @@ var app = express()
 
 /* Configuration is done here
 */
+  // add nunjucks to requires so filters can be 
+  // added and the same instance will be used inside the render method 
+  cons.requires.nunjucks = nunjucks.configure(); 
+  cons.requires.nunjucks.addGlobal('website_name', config.get('app').name);
+
   // Handy flash messages
   app.use(flash())
 
