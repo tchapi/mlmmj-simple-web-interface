@@ -398,9 +398,13 @@ p.saveTexts = function() {
   var text = null
   for (var name in available_texts) {
     text = this.getText(name)
-    fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
-    fs.writeSync(fd, text)
-    fs.closeSync(fd)
+    if (text != "") {
+      fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
+      fs.writeSync(fd, text)
+      fs.closeSync(fd)
+    } else {
+      fs.unlinkSync(this.path + "/" + control_folder + "/" + name)
+    }
   }
 }
 
@@ -450,9 +454,14 @@ p.saveValues = function() {
   var val = null
   for (var name in available_values) {
     val = this.getValue(name)
-    fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
-    fs.writeSync(fd, val)
-    fs.closeSync(fd)
+    if (val != "") {
+      fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
+      fs.writeSync(fd, val)
+      fs.closeSync(fd)
+    } else {
+      fs.unlinkSync(this.path + "/" + control_folder + "/" + name)
+    }
+
   }
 }
 
@@ -501,9 +510,13 @@ p.saveLists = function() {
   var l = null
   for (var name in available_lists) {
     l = this.getList(name)
-    fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
-    fs.writeSync(fd,l.join('\n'))
-    fs.closeSync(fd)
+    if (l != [] && l != null) {
+      fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
+      fs.writeSync(fd,l.join('\n'))
+      fs.closeSync(fd)
+    } else {
+      fs.unlinkSync(this.path + "/" + control_folder + "/" + name, 'w')
+    }
   }
 }
 
