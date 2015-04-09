@@ -403,7 +403,9 @@ p.saveTexts = function() {
       fs.writeSync(fd, text)
       fs.closeSync(fd)
     } else {
-      fs.unlinkSync(this.path + "/" + control_folder + "/" + name)
+      try {
+        fs.unlinkSync(this.path + "/" + control_folder + "/" + name)
+      } catch(err){}
     }
   }
 }
@@ -459,7 +461,9 @@ p.saveValues = function() {
       fs.writeSync(fd, val)
       fs.closeSync(fd)
     } else {
-      fs.unlinkSync(this.path + "/" + control_folder + "/" + name)
+      try {
+        fs.unlinkSync(this.path + "/" + control_folder + "/" + name)
+      } catch(err){}
     }
 
   }
@@ -515,7 +519,9 @@ p.saveLists = function() {
       fs.writeSync(fd,l.join('\n'))
       fs.closeSync(fd)
     } else {
-      fs.unlinkSync(this.path + "/" + control_folder + "/" + name, 'w')
+      try {
+        fs.unlinkSync(this.path + "/" + control_folder + "/" + name, 'w')
+      } catch(err){}
     }
   }
 }
