@@ -514,7 +514,7 @@ p.saveLists = function() {
   var l = null
   for (var name in available_lists) {
     l = this.getList(name)
-    if (l != [] && l != null) {
+    if (l != "") {
       fd = fs.openSync(this.path + "/" + control_folder + "/" + name, 'w')
       fs.writeSync(fd,l.join('\n'))
       fs.closeSync(fd)
