@@ -1,8 +1,7 @@
 var fs = require('fs')
 
 // Add mail parser module
-var MailParser = require("mailparser").MailParser
-  , mailparser = new MailParser();
+const simpleParser = require('mailparser').simpleParser;
 
 /*
 
@@ -614,8 +613,8 @@ p.listArchives = function(year, month) {
 
 p.getArchive = function(id, callback) {
   email = fs.readFileSync(this.path + "/" + archive_folder + "/" + id, { "encoding": 'utf8'})
-  mailparser.once('end', callback)
-  return mailparser.end(email)
+  simpleParser(email).then(callback)
+                     .catch(console.log)
 }
 
 module.exports = MlmmjWrapper

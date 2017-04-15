@@ -25,10 +25,12 @@
   </ul>
 </div>
 
-{% if nobody %}
-  <em>No content</em>
-{% else %}
+{% if mail.html %}
   {{ mail.html }}
+{% elseif mail.text %}
+  {{ mail.text }}
+{% else %}
+  <em>No content</em>
 {% endif %}
 
 <div class="attachments">
