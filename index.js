@@ -282,7 +282,6 @@ app.get('/group/:name/archives/:year?/:month?/:day?', ensureAuthenticated, funct
 })
 
 app.get('/group/:name/archive/:mail_id', ensureAuthenticated, function(req, res){
-  console.log(req.mail.text)
     res.render('archive', {
       title: 'Mailing list ' + req.name,
       id: req.mail_id,
