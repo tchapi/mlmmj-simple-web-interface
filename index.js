@@ -291,7 +291,7 @@ app.get('/group/:name/archive/:mail_id', ensureAuthenticated, function(req, res)
 })
 
 // Start application
-var server = app.listen(config.get('server').port, function () {
+var server = app.listen(config.get('server').port, config.get('server').address, function () {
 
   var host = server.address().address
   var port = server.address().port
