@@ -4,19 +4,18 @@
   "description": "A very simple web frontend in node for mlmmj (http://mlmmj.org)",
   "main": "index.js",
   "dependencies": {
-    "body-parser": "^1.11.0",
+    "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
-    "consolidate": "^0.12.0",
-    "express": "^4.11.2",
-    "express-session": "^1.10.4",
-    "mailparser": "^2.0.3",
-    "nunjucks": "^1.2.0",
-    "passport": "^0.3.2",
+    "consolidate": "0.14.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mailparser": "^3.1.0",
+    "nunjucks": "^3.2.3",
+    "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "tchapi",
   "license": "MIT"
