@@ -1,6 +1,6 @@
 {
   "name": "mlmmj-simple-web-interface",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A very simple web frontend in node for mlmmj (http://mlmmj.org)",
   "main": "index.js",
   "dependencies": {
