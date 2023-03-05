@@ -43,6 +43,10 @@ var available_flags = {
     name: "Closed posting", 
     description: " When this file is present, only people who are subscribed to the list, are allowed to post to it. The check is made against the \"From:\" header."
   },
+  "modonlypost" : {
+    name: "Moderator-only posting", 
+    description: " When this file is present, only people who are moderators of the list, are allowed to post to it. The check is made against the \"From:\" header."
+  },
   "modnonsubposts" : {
     name: "Moderated posts", 
     description: "When this file is present, all postings from people who are not subscribed to the list will be moderated."
