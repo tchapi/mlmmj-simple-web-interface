@@ -1,4 +1,7 @@
 # Mlmmj Simple Web Interface
+
+See https://tchap.me/blog/a-simple-web-interface-for-mlmmj/
+
 A very simple web frontend in node for [mlmmj](http://mlmmj.org/).
 
 > **Attention : run as `list`** :
