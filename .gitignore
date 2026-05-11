@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+config.json
 
 # Dependency directory
 # Commenting this out is preferred by some people, see
@@ -9,3 +10,5 @@ node_modules
 
 config.json
 data
+
+.idea
